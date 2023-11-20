@@ -1,14 +1,13 @@
 package com.sparta.todoapp.controller;
 
+import com.sparta.todoapp.dto.LoginRequestDto;
 import com.sparta.todoapp.dto.ResponseDto;
 import com.sparta.todoapp.dto.SignupRequestDto;
 import com.sparta.todoapp.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,11 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
-    @GetMapping("/user/signup")
+    @PostMapping("/user/signup")
     public ResponseDto signupPage(@RequestBody @Valid SignupRequestDto requestDto) {
         return userService.signup(requestDto);
     }
 
+    @ResponseBody
+    @PostMapping("/user/login")
+    public ResponseDto login(@RequestBody @Valid LoginRequestDto requestDto, HttpServletResponse res) {
+        return userService.login(requestDto, res);
+    }
 
 
 }
